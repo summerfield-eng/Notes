@@ -35,7 +35,7 @@ This note will contain all the important things that I've learn while learning w
 - [Arrow Functions](https://javascript.info/arrow-functions-basics)
 - [Javascript Execution Context](https://www.javascripttutorial.net/javascript-execution-context/)
 - [Javascript Call Stack](https://www.javascripttutorial.net/javascript-call-stack/)
-- [Pseudocdoe](https://builtin.com/data-science/pseudocode)
+- [Pseudocode](https://builtin.com/data-science/pseudocode)
   - A pseudocode is a step by step problems in solving a problem in relation to a program.
 
     > Pseudocode describes the distinct steps of an algorithm in a way that anyone with basic programming skills can understand. Here’s how to write your own.
