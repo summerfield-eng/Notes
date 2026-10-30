@@ -88,3 +88,39 @@
      ```
 
      - Note: **.size** to get the number of values in a Set. Unlike arrays, Sets don't use `.length`.
+
+## Transpilers and Polyfills
+
+- JavaScript is a language that keeps on changing ang improving. So it is not surprising that there will be new features coming out every now and then.
+- But sometimes, these features might not be supported in some browsers and could take a while to be implemented. So how do we make sure that codes using the new features will be able to run on unsupported browser or environment,
+- The solutions is to make use of the currently existing functionalities to imitate what the new features does.
+
+### Transpilers
+
+- _Transpiler_ is a piece of software that translates a code to another source code. It can parse ("read and understand") modern code and rewrite it using older syntax constructs, so that it can work on outdated engines.
+- The use to be no _nullish coalescing operator_ on JavaScript. So older engines would not understand `height = height ?? 100`.
+- A transpiler would analyze our code and rewrite `height ?? 100` into `(height !== undefined && height !== null) ? height : 100`.
+
+  ```JavaScript
+    // before running the transpiler
+    height = height ?? 100;
+
+    // after running the transpiler
+    height = (height !== undefined && height !== null) ? height : 100;
+  ```
+
+### Polyfills
+
+- A script that updates/adds new functions is called “polyfill”. It “fills in” the gap and adds missing implementations.
+- For example, `Math.trunc(n)` is a function that “cuts off” the decimal part of a number, e.g `Math.trunc(1.23) `returns `1`.
+- For this particular case, the polyfill for Math.trunc is a script that implements it, like this:
+  ```JavaScript
+    if (!Math.trunc) { // if no such function
+      // implement it
+      Math.trunc = function(number) {
+        // Math.ceil and Math.floor exist even in ancient JavaScript engines
+        return number < 0 ? Math.ceil(number) : Math.floor(number);
+      };
+    }
+  ```
+  [Source](https://javascript.info/polyfills)
