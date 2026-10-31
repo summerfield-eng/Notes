@@ -124,3 +124,32 @@
     }
   ```
   [Source](https://javascript.info/polyfills)
+
+## Mutability and Immutability
+
+- In order to understand these, we need to know about `Primitives` and `Reference` data types. And also the difference between `reassignment` and `mutation`
+- `Primitives` are data types that is _immutable_. Meaning that we cannot change the _value_. The variables holding the value simple gets `pointed` to a new slot in the memory containing the newly created value.
+
+### NOTES:
+
+- `Stack` and `Heap` does not determine `mutability`.
+- `Reassignment` is not the same as `mutability`.
+
+---
+
+### AI NOTES
+
+## Mutability and Immutability
+
+- To understand these, you need `Primitives` vs `Reference` data types — and
+  above all, the difference between **reassignment** and **mutation**. These are
+  TWO DIFFERENT OPERATIONS, and confusing them is the main source of confusion.
+  - 🔄 **Reassignment** — point a _variable_ at a different value.
+    Available for every type. Never affects other variables.
+  - ✏️ **Mutation** — change the _thing itself_, in place.
+    Only possible on mutable types. Always affects every variable pointing at it.
+
+- `Primitives` (number, string, boolean, null, undefined, symbol, bigint) are
+  **immutable**: they have no parts you can reach into, so there is nothing to
+  change. `5` is always `5`. The only thing you can do is reassign the variable
+  to a _different_ value — which leaves the original value untouched.
