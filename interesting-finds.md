@@ -98,7 +98,7 @@
 ### Transpilers
 
 - _Transpiler_ is a piece of software that translates a code to another source code. It can parse ("read and understand") modern code and rewrite it using older syntax constructs, so that it can work on outdated engines.
-- The use to be no _nullish coalescing operator_ on JavaScript. So older engines would not understand `height = height ?? 100`.
+- There used to be no _nullish coalescing operator_ on JavaScript. So older engines would not understand `height = height ?? 100`.
 - A transpiler would analyze our code and rewrite `height ?? 100` into `(height !== undefined && height !== null) ? height : 100`.
 
   ```JavaScript

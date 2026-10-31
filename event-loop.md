@@ -14,13 +14,13 @@ Event loop is a component inside a JavaScript runtime environment. Whether it is
 The other components/parts are below.
 
 - Call Stack (+ Heap memory)
-- Web API's Environment
+- Web APIs Environment
 - Task Queue
 - Microtask Queue
 - Event loop
   ![The JavaScript runtime environment](image-1.png)
 
-This components work together to make JavaScript non-blocking.
+These components work together to make JavaScript non-blocking.
 
 ## Event Loop, why do we need it?
 
@@ -169,3 +169,93 @@ This components work together to make JavaScript non-blocking.
      ![scenario 3.5](image-13.png)
   9. The `console.log(position)` will be executed in the call stack and will be pop-out after execution. Remember that `console` is a synchronous api. So it will happen inside the _call stack_, and the user position will appear in the console.
      ![scenario 3.6](image-14.png)
+
+### Another example using the DOM API and Event API
+
+```JavaScript
+1|  console.log("Start!");
+2|
+3|  const btn = document.getElementById("myBtn");
+4|
+5|  btn.addEventListener("click", () => {
+6|    console.log("Button clicked!");
+7|  })
+8|
+9| console.log("End!")
+```
+
+![scenario 4](image-15.png)
+
+Steps:
+
+1. Upon code execution, JavaScript Engine will create a _global execution_ context in the _call stack_.
+2. Line 1, `console.log("Start!")`, this is a synchronous api, so it will automatically be logged in the console.
+3. Moving on the next line, a variable `btn` is initialized with the html element that has an ID of `myBtn`. This will be stored in the memory(Heap).
+4. Next line, we added an eventlistener on the `btn` variable. The JavaScript engine sees that we added an eventListener method, so it executes that event listener and passes a callback function the web api environment. That function is **not** executed yet. It is simply registered.
+   Wording fix: ![fix 1](image-16.png)
+5. When a user clicks on that button, it will trigger that stored callback function on the web api which in turn will push that callback function on the macrotask queue and waits for the event loop to do its jobs, once cleared, it will push that callback function on the callstack in which a function execution context is created and will print "Button clicked!" on the console.
+6. For now since the button is not clicked, it will proceed on the next line of the code and it will print the "End!" string in console.
+7. The global execution context will be pop-out of the call stack.
+
+### Another example with Fetch API
+
+- Code
+
+```JavaScript
+ 1|  console.log("Start");
+ 2|
+ 3|  setTimeout(()=>{
+ 4|     console.log("Inside setTimeout");
+ 5|  }, 4000);
+ 6|
+ 7|  fetch("https://www.abc.com/data")
+ 8|    .then(()=>{
+ 9|      console.log("Data Received")
+10|  });
+11|
+12|  console.log("End!");
+```
+
+![scenario 5](image-17.png)
+
+- Code Executes
+  1. JavaScript Engine creates a _global execution_ context inside the callstack.
+  2. Line 1, the code `console.log("Start!");` executes inside the call stack synchronously. Printing `Start` on the console.
+  3. Line 3, JavaScript engines that we have a window object `.setTimeout(fn, 4000)`. Set timeout executes synchronously on the call stack. It passes the callback function `fn` on the web api environment. The web environment handles the countdown.
+  4. Line 7, the JavaScript engine sees that we have a fetch() call, which is a window object. The fetch() api hands the URL request to the web api environment to fetch the data and creates a _Promise_ that stored in the Heap. The `fetch()` gets pop-out of the stack. The `.then()` attaches the callback function `console.log("Data Received")` to the promise. Then the `.then()` gets pop-out after attaching the callback function.![scenario 5.3](image-21.png)![scenario 5.4](image-22.png) ![scenario 5.6](image-24.png)
+  5. JavaScript procees on Line 12, where it executes the code synchronously and prints `End!`.
+  6. The code execution is completed and the _global execution_ context is removed and the call stack is now empty.
+  7. In the web api environment, we have 2 functions that currently exists. the callback function for the set timeout and the callback function for the fetch.
+     ![scenario 5.1](image-18.png)
+  8. Now assuming that the fetch loads faster, once the data arrives, the browser resolves the _promise_. The promise then moves the callback fn to the web api environment, which then moves to the micro task queue, which then gets push by the event loop in the callstack. It then gets executed and prints `Data Received` on the console. Take note that the _microtask queue_ takes higher priority. Meaning that the _event loop_ would first check the _microtask queue_ if it is empty before checking the _macrotask queue_.!![scenario 5.2](image-20.png).
+  9. Now after waiting for atleast 4 seconds, the setTimeout callback funtion is now ready and is push on the macrotask queue. The _event loop_ will then check if the call stack is empty and would push the callback fn to it for it to be executed. It would print `Inside setTimeout` on the console.
+  - Now lets assume both finished at the same time. ![scenario 5.5](image-23.png). The microtask gets push on the call stack first and then gets executed and pop-out. After it was pop-out, then will only then be the setTimeout be push in the callstack to be executed.
+
+#### How do we identify which goes into Micro/Macro?
+
+![scenario](image-25.png)
+
+To easily identify which function goes into which, you only need to remember that **all** asynchronous callback function goes into the Macro task queue except the following:
+
+- Promises - then, catch & finally callback
+- MutationObserver
+- Function body execution after await
+- queueMicrotask
+
+#### Starvation of function
+
+- Consider the scenario below. Both the macrotask queue and micro task queue has 3 task. By design, the event loop will prioritize the microtask queue after checking the call stack is empty.
+- Event loop will push Task 1 to the call stack to be executed. After execution it then gets pop-out
+- Event loop will then push Task 2 to the call stack. After execution it creates another task, Task 4, that will be pushed on the microtask queue. Task 2 gets pop-out of the call stack.
+- Event loop with then push Task 3 to the call stack. After execution it also creates another task, Task 5, that will also be push o the microtask queue. Task 3 gets pop-out.
+- Since we have Task 4 on the microtask queue, what if after it was push in the call stack, it creates another task that will be push on the microtask queue. Same goes with Task 5. This might continue for a long time. Meaning, the task in the Macro task queue will be stuck and would not be executed as long as the microtask queue is not empty.
+- This scenario is called **"Starvation"**. It is a process that never gets the resource it's waiting for.
+- The effectss could:
+  - make the page freeze
+  - clicks dont respond
+  - animation stops
+  - the tab appears hung
+
+![starvation image](image-26.png)
+
+[Source](https://www.youtube.com/watch?v=jzOy07fw2vY)
