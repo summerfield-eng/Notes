@@ -89,10 +89,71 @@ This section will contain notes about loops and arrays.
 
 - This works similarly to break, but instead of breaking out of the loop, it skips to the next iteration.
 
+#### Labels for break and continue
+
+- Sometimes we need to break out from multiple nested loops at once.
+- For example, in the code below we loop over i and j, prompting for the coordinates (i, j) from (0,0) to (2,2):
+
+  ```JavaScript
+  for (let i = 0; i < 3; i++) {
+
+    for (let j = 0; j < 3; j++) {
+
+      let input = prompt(`Value at coords (${i},${j})`, '');
+
+      // what if we want to exit from here to Done (below)?
+    }
+  }
+
+  alert('Done!');
+  ```
+
+- We need a way to stop the process if the user cancels the input.
+
+- The ordinary `break` after `input` would only break the inner loop. That’s not sufficient – labels, come to the rescue!
+
+- A label is an identifier with a colon before a loop:
+
+  ```JavaScript
+  labelName: for (...) {
+    ...
+  }
+  ```
+
+- The `break <labelName> `statement in the loop below breaks out to the label:
+
 #### Skipping parts of the `for` loops
 
 - Any part of the `for` loop can be skipped.
--
+- The `break <labelName>` statement in the loop below breaks out to the label:
+
+  ```JavaScript
+  outer: for (let i = 0; i < 3; i++) {
+
+    for (let j = 0; j < 3; j++) {
+
+      let input = prompt(`Value at coords (${i},${j})`, '');
+
+      // if an empty string or canceled, then break out of both loops
+      if (!input) break outer; // (*)
+
+      // do something with the value...
+    }
+  }
+
+  alert('Done!');
+  ```
+
+- In the code above, `break outer` looks upwards for the label named `outer` and breaks out of that loop.
+
+- So the control goes straight from `(*)` to `alert('Done!')`.
+
+- We can also move the label onto a separate line:
+  ```JavaScript
+  outer:
+  for (let i = 0; i < 3; i++) { ... }
+  ```
+- The `continue` directive can also be used with a label. In this case, code execution jumps to the next iteration of the labeled loop.
 
 #### The `while` and `do...while` loop
 
