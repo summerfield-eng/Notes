@@ -125,21 +125,94 @@
 ## Searching in array
 
 1. `.indexOf()`/ `.lastIndexOf()` and `.includes()`
+   - the methods `arr.indexOf` and `arr.includes` have similar syntax and does exactly the same thing as the string counterparts. But operate on items rather than characters. This is a _non-mutating method_.
+     - `arr.indexOf(item, from)` - looks for `item` starting from index `from`, and _returns_ the index where it was found, otherwise -1.
+     - `arr.includes(item, from)` - looks for `items` starting from index `from`, _returns_ `true` if found.
+       - In most cases, using the first argument is enough.
 
+         ```JavaScript
+         let collection = ["Harvy" , 31, false]
 
-    - the methods `arr.indexOf` and `arr.includes` have similar syntax and does exactly the same thing as the string counterparts. But operate on items rather than characters. This is a _non-mutating method_.
-      - `arr.indexOf(item, from)` - looks for `item` starting from index `from`, and _returns_ the index where it was found, otherwise -1.
-      - `arr.includes(item, from)` - looks for `items` starting from index `from`, _returns_ `true` if found.
-      - In most cases, using the first argument is enough.
+         console.log(collection.indexOf("Harvy"))  // 0
+         console.log(collection.indexOf(31)) // 1
+         console.log(collection.indexOf(true)) // 2
+         console.log(collection.indexOf("GF")) // -1
+
+         console.log(collection.inludes("GFName")) //-1
+         ```
+
+       - Please note that indexOf uses the strict equality === for comparison. So, if we look for false, it finds exactly false and not the zero.
+       - If we want to check if `item` exists in the array and don’t need the index, then `arr.includes` is preferred.
+
+     - `arr.lastIndexIf(item, from)` - same with the `.indexOf()` but looks for from right to left.
+       ```JavaScript
+       let collection = ["Harvy" , 31, false]
+
+       console.log(collection.indexOf("Harvy")); // 0
+       console.log(collection.lastIndexOf("Harvy")); // 2
+       ```
+
+2. `.find()` and `.findIndex()` / `.findLastIndex()`
+   - `.find(fn)`
+     - The methods above allows us to find the index of a specific item. But what if we want to find an item inside an array based on a condition ? This is where the `.find(fn)` method comes in.
+     - **Syntax**:
+       ```JavaScript
+       let result = arr.find(function(item, index, array) {
+         // if true is returned, item is returned and iteration is stopped
+         // for falsy scenario returns undefined
+       });
+       ```
+     - Each item on the array is passed as an argument to the callback function.
+       - `item` is the element.
+       - `index` is its index.
+       - `array` is the itself.
+     - IF it returns `true`, the search is stopped and returns the `item`. IF nothing is found, `undefined` is returned. Meaning it returns the first match it finds.
+
+       ```JavaScript
+       let me = [
+         {name: "Harvy",  isEmployed: true},
+         {name: "Luci",  isEmployed: false},
+         {name: "Cab",  isEmployed: true}
+       ]
+
+       let hasWork = me.find((item)=>{return item.isEmployed === true})
+
+       console.log(hasWork) //{name: "Harvy",  isEmployed: true}
+       ```
+
+   - `.findIndex()` - this is a _non-mutating method_ that returns the index where the element was found. It has the same syntax as `.find()`. A value of `-1` is returned if nothing is found.
+   - `.findLastIndex()` - same as `.findIndex()` but searches from right to left.
+
+     ```JavaScript
+     let users = [
+       {id: 1, name: "John"},
+       {id: 2, name: "Pete"},
+       {id: 3, name: "Mary"},
+       {id: 4, name: "John"}
+     ];
+
+     // Find the index of the first John
+     alert(users.findIndex(user => user.name == 'John')); // 0
+
+     // Find the index of the last John
+     alert(users.findLastIndex(user => user.name == 'John')); // 3
+     ```
+
+3. `.filter()`
+   - So the `.find()` methods looks for a single (first) element that makes the function return true. So what if we want a collection of items that makes the callback function returns `true`. This case needs the `.filter(fn)` method.
+   - Syntax is similar to `.find(fn)` but it returns a new array that makes the callback function `true`, and returns an empty array if `false`. This is a _non-mutating method_
 
 ```JavaScript
-let collection = ["Harvy" , 31, true]
-let nameIndex = collection.indexOf("Harvy")
-let ageIndex = collection.indexOf(31)
-let booleanIndex = collection.indexOf(true)
-let gfNameIndex = collection.indexOf("GF")
+let me = [
+          {name: "Harvy",  isEmployed: true},
+          {name: "Luci",  isEmployed: false},
+          {name: "Cab",  isEmployed: true}
+        ]
 
-let hasGF = collection.inludes("GFName")
+let unEmployedUsers = me.filter((item)=>{return item.isEmployed === false })
+
+console.log(unEmployedUsers)
+// [ { name: 'Luci', isEmployed: false } ]
 ```
 
 ## General Rule
