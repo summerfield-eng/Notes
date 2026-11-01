@@ -128,12 +128,64 @@
 ## Mutability and Immutability
 
 - In order to understand these, we need to know about `Primitives` and `Reference` data types. And also the difference between `reassignment` and `mutation`
-- `Primitives` are data types that is _immutable_. Meaning that we cannot change the _value_. The variables holding the value simple gets `pointed` to a new slot in the memory containing the newly created value.
+- `Primitives` are data types that is _immutable_. Meaning that we cannot change the _value_ once it is declared.
+- `Reference` are data types that are _mutable_. Meaning that we can change the value once it is declared.
+- Look at the example below:
+
+  ```JavaScript
+  let a = 30;
+  a = 31; //This is reassignment.
+
+  console.log(a) // 31
+  ```
+
+- Look at variable `a`, it is holding the value `30`. Then we reassign the value of `a` to `31`. We did not _mutate_ the value of variable `a`, we reassigned it.
+  - Even if we add a value to variable `a`, like this, `a = a + 1` would be considered still as _reassignment_.
+
+  ```JavaScript
+  let a = 30;
+  a = a + 1; //This is still reassignment
+
+  console.log(a) // 31
+  ```
+
+- So think of mutability like a box with a label. The label is the _variable_. Whats inside the box is the _value_. So when we reassign a variable, we are actually removing the the label of the box, and sticking it to a box that hold the new value. The box still exist with the old value, it just does not have any label. This is reassignment.
+
+### Mutating Array Methods
+
+- push()
+- pop()
+- unshift()
+- shift()
+- splice()
+- sort()
+- reverse()
+- fill()
+- copyWithin()
+
+Note:
+A method can be non-mutating while its callback
 
 ### NOTES:
 
 - `Stack` and `Heap` does not determine `mutability`.
 - `Reassignment` is not the same as `mutability`.
+- `Non-mutating` means it does **NOT** modify the original _value_ or _object_. It also does not necessarily mean creating a new copy. Because when we talked about _non-mutating methods_, that method might retun other values such as `strings`, `number`, `boolean` etc.
+- `Non-mutating methods`: These are _methods_ that is _non-mutating_. Meaning it does not modify the original data when you apply that method to a data type. All _non-mutating methods_ returns a value without modifying the original data. But the returned valued may be:
+  - A _new_ `array` (slice(), filter())
+  - A _new_ `string` (toUpperCase(), trim())
+  - A `boolean` (includes(), startsWith())
+  - A `number` (indexOf())
+  - `undefined` (forEach())
+  - The important distinction is:
+    - Mutation: Does the operation modify the original data?
+    - Return value: What does the operation give back?
+- `Mutating` means it modifies the original _value_ or _object_.
+- `Mutating methods` - These are _methods_ that **does** modify the original data. Some methods returns a value and some methods returns `undefined` like `forEach()`.
+- `Summary` A method can be _non-mutating_ and _mutating_. They can also return a value or return `undefined`.
+- `Mutability` describes whether the original gets changed, **NOT** whether memory gets allocated.
+- `Reassignment`: Changing what a `variable` holds.
+  [reasignment](../../../..)
 
 ---
 
