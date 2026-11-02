@@ -43,7 +43,7 @@
 ### Set methods
 
 - Below are the 4 methods you should learn.
-  1. .add(value)
+  1. `.add(value)`
      - this will add a value to the Set if it is not already present. Adding 101 twice doesn't create a duplicate.
 
      ```JavaScript
@@ -55,7 +55,7 @@
          console.log(ids); // Set {101, 102}
      ```
 
-  2. .has(value)
+  2. `.has(value)`
      - checks whether a value exist. Returns `true` or `false`.This is useful when you need to check whether you've already encountered something.
 
      ```JavaScript
@@ -65,7 +65,7 @@
      console.log(ids.has(999)); // false
      ```
 
-  3. .delete(value)
+  3. `.delete(value)`
      - removes a specific value. Returns `true` if the value was removed, otherwise `false`.
 
      ```JavaScript
@@ -76,7 +76,7 @@
      console.log(ids); // Set {101, 103}
      ```
 
-  4. .clear()
+  4. `.clear()`
      - removes every value.
 
      ```JavaScript
@@ -185,7 +185,6 @@ A method can be non-mutating while its callback
 - `Summary` A method can be _non-mutating_ and _mutating_. They can also return a value or return `undefined`.
 - `Mutability` describes whether the original gets changed, **NOT** whether memory gets allocated.
 - `Reassignment`: Changing what a `variable` holds.
-  [reasignment](../../../..)
 
 ---
 
@@ -205,3 +204,39 @@ A method can be non-mutating while its callback
   **immutable**: they have no parts you can reach into, so there is nothing to
   change. `5` is always `5`. The only thing you can do is reassign the variable
   to a _different_ value — which leaves the original value untouched.
+
+## Using object functions(method)
+
+- Though I know classes, never thought that I would be able to use objects this way. We can actually create an object to serve as the callback function that we will put inside the `.filter()` method.
+
+  ```JavaScript
+  let workReq = {
+    hasVisa: true,
+    hasSSS: true,
+    minAge:18,
+    maxAge: 35,
+    canJoin(applicant) {
+      return applicant.visa === this.hasVisa
+        && applicant.sss === this.hasSSS
+        && applicant.age >= this.minAge
+        && applicant.age < this.maxAge
+    }
+  };
+
+  let applicants = [
+    { applicantNum: 1, visa: true, sss: true, age: 27 },
+    { applicantNum: 2, visa: false, sss: true, age: 27 },
+    { applicantNum: 3, visa: true, sss: false, age: 22 },
+    { applicantNum: 4, visa: true, sss: true, age: 37 },
+    { applicantNum: 5, visa: true, sss: true, age: 19 }
+  ];
+
+  let eligible = applicants.filter((applicant)=> workReq.canJoin(applicant));
+
+  console.log(eligible);
+
+  //[
+  // { applicantNum: 1, visa: true, sss: true, age: 27 },
+  // { appplicantNum: 5, visa: true, sss: true, age: 19 }
+  //]
+  ```

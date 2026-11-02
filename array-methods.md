@@ -57,6 +57,7 @@
      //copy the arr array and store it in copiedArr
      let copiedArr = arr.slice()
 
+     //replace study with love
      copiedArr.splice(1,1, "love")
 
      console.log(arr) //["I", "study", "JavaScript", "right", "now"]
@@ -145,6 +146,7 @@
        - If we want to check if `item` exists in the array and don’t need the index, then `arr.includes` is preferred.
 
      - `arr.lastIndexIf(item, from)` - same with the `.indexOf()` but looks for from right to left.
+
        ```JavaScript
        let collection = ["Harvy" , 31, false]
 
@@ -199,7 +201,7 @@
      ```
 
 3. `.filter()`
-   - So the `.find()` methods looks for a single (first) element that makes the function return true. So what if we want a collection of items that makes the callback function returns `true`. This case needs the `.filter(fn)` method.
+   - So the `.find()` methods looks for a single (first) element that makes the function return `true`. So what if we want a collection of items that makes the callback function returns `true`. This case needs the `.filter(fn)` method.
    - Syntax is similar to `.find(fn)` but it returns a new array that makes the callback function `true`, and returns an empty array if `false`. This is a _non-mutating method_
 
 ```JavaScript
@@ -215,7 +217,190 @@ console.log(unEmployedUsers)
 // [ { name: 'Luci', isEmployed: false } ]
 ```
 
+## Transform an array
+
+- This section will talk about method that _transform_ and _reorder_ an array.
+
+1. `.map()` - like the `.forEach` method, it call each element of the array **but** returns the array of results. Unlike the `.forEach()` which returns `undefined`. This is a _non-mutating method_.
+   - **Syntax**
+
+   ```JavaScript
+   let result = arr.map(function(item, index, array) {
+     // returns the new value instead of item
+   });
+   ```
+
+   - The sample below shows how we transform the element of the array into its `length`. Notice that it returned an array.
+
+   ```JavaScript
+   let result = ["mango", "pineapple", "orange"].map(item => item.length)
+
+   console.log(result) // [ 5, 9, 6 ]
+   ```
+
+2. `.sort(fn)` - this method sorts the array in place. Changing the order of the elements. It also returns the sorted array but it usually ignored because the array it is called upon on is modified. This is a _mutating method_.
+
+   ```JavaScript
+   let arr = [ 1, 2, 15 ];
+
+   // the method reorders the content of arr
+   arr.sort();
+
+   alert( arr );  // 1, 15, 2
+   ```
+
+   - Notice how the order is incorrect? because **the items are sorted as strings by default**.
+   - Literally, all elements are converted to strings for comparisons. For strings, lexicographic ordering is applied and indeed `"2" > "15"`.
+   - You need to supply a function as the argument of `arr.sort()`
+   - The function provided should compare two arbitrary values and return:
+     ```JavaScript
+     function compare(a, b) {
+       if (a > b) return 1; // if the first value is greater than the second
+       if (a == b) return 0; // if values are equal
+       if (a < b) return -1; // if the first value is less than the second
+     }
+     ```
+   - Let try it again. For instance, to sort as numbers:
+
+     ```JavaScript
+     function compareNumeric(a, b) {
+       if (a > b) return 1;
+       if (a == b) return 0;
+       if (a < b) return -1;
+     }
+
+     let arr = [ 1, 2, 15 ];
+
+     arr.sort(compareNumeric);
+
+     alert(arr);  // 1, 2, 15
+     ```
+
+   - use `localeCompare` for strings
+     - For many alphabets, it’s better to use str.localeCompare method to correctly sort letters, such as Ö.
+
+     - For example, let’s sort a few countries in German:
+
+       ```JavaScript
+       let countries = ['Österreich', 'Andorra', 'Vietnam'];
+
+       alert( countries.sort( (a, b) => a > b ? 1 : -1) ); // Andorra, Vietnam, Österreich (wrong)
+
+       alert( countries.sort( (a, b) => a.localeCompare(b) ) ); // Andorra,Österreich,Vietnam (correct!)
+       ```
+
+3. `.reverse()` - this method transform the original array by reversing the order of elements in the array that it is called upon on. This is a _mutating method_.
+   - Lets take a look at the example below.
+
+     ```JavaScript
+     let arr = [1, 2, 3, 4, 5];
+     arr.reverse();
+
+     alert( arr ); // 5,4,3,2,1
+     ```
+
+   - This function returns the reversed array too like the `.sort()` method.
+
+4. `.split()` and `.join()` - this method splits the string into an array by a given _delimiter_ `delim`. Since this is attached to a `string`, this is a _non-mutating method_.
+   - **Syntax**: `str.split(delim, limit)`
+     - Lets say we ask a user to enter their favorite games and the user types a straigth string.
+
+       ```JavaScript
+       let favoriteGames = "Pokemon, Persona, Final Fantasy, Rune factory"
+
+       let faveGamesArr = favoriteGames.split(",")
+
+       faveGamesArr.forEach((item, index)=>{console.log(`My number ${index + 1} favorite game is: ${item}`)})
+
+       // My number 1 favorite game is Pokemon
+       // My number 2 favorite game is Persona
+       // My number 3 favorite game is Final Fantasy
+       // My number 4 favorite game is Rune factory
+       ```
+
+     - the `limit` is an optional numeric argument, it present it puts a limit on the array length and would ignore extra elements.
+
+       ```JavaScript
+       let favoriteGames = "Pokemon, Persona, Final Fantasy, Rune factory";
+
+       // we can also use regEx
+       let faveGamesArr = favoriteGames.split(/,\s/, 2);
+
+       faveGamesArr.forEach( (item, index)=>{console.log(`My number ${index + 1} favorite game is: ${item}`)} );
+
+       // My number 1 favorite game is Pokemon
+       // My number 2 favorite game is Persona
+       ```
+
+     - If you call this method with `arr.split("")`, this would separate the string into an array of letters.
+
+   - **Syntax**: `arr.join(glue)` this method does the reverse of `.split()`. It creates a string of `arr` items joined by the `glue` between them.
+     - Lets now restore the users input.
+
+       ```JavaScript
+       let favoriteGames = "Pokemon, Persona, Final Fantasy, Rune factory";
+
+       // we can also use regEx
+       let faveGamesArr = favoriteGames.split(/,\s/, 2);
+
+       faveGamesArr.forEach( (item, index)=>{console.log(`My number ${index + 1} favorite game is: ${item}`)} );
+
+       // My number 1 favorite game is Pokemon
+       // My number 2 favorite game is Persona
+
+       let restoredFaveGames = faveGamesArr.join(",");
+
+       console.log(restoredFaveGames);
+       // this return the string: Pokemon, Persona, Final Fantasy, Rune factory
+       ```
+
+5. `.reduce()` / `reduceRight()`
+   - This method is a _non-mutating method_ that allows users to _reduce_ an item. They are used to calculate a single value based on the array
+     - **Syntax**:
+       ```JavaScript
+       let value = arr.reduce(function(accumulator, item, index, array) {
+         // ...
+       }, [initial]);
+       ```
+     - The function is applied to all array elements one after another and “carries on” its result to the next call.
+       - Arguments:
+         - `accumulator` – is the result of the previous function call, equals initial the first time (if initial is provided).
+         - `item` – is the current array item.
+         - `index` – is its position.
+         - `array` – is the array.
+     - Lets say you took 5 exam to day and each exam has a maximum of 20 points that would be totaled to get the overall score. Your score are stored inside the array.
+
+       ```JavaScript
+       let scores = [ 20, 19, 15, 14, 20 ]
+
+       let totalScore = scores.reduce( (acc, item) => { return acc + item}, 0 )
+       let totalScoreTwo = scores.reduce( (acc, item) => { return acc + item} )
+
+       console.log(totalScore) // 88
+       console.log(totalScoreTwo) // 88
+       ```
+
+     - Notice how the answer is still the same even though we did not provide an `initial` argument.
+     - **NOTE:** You can read more about this [here](https://javascript.info/array-methods#reduce-reduceright).
+
+## Array.isArray()
+
+- So we know that if we use `typeof` to an array, it would print `object` instead of `array`. So a method is specially created to validate a value.
+  - `Array.isArray(value)`
+
+    ```JavaScript
+    alert(typeof {}); // object
+    alert(typeof []); // object (same)
+
+    alert(Array.isArray({})); // false
+    alert(Array.isArray([])); // true
+    ```
+
 ## General Rule
 
 - IF a method has `.to*` in it, it means that it is a `non-mutating` method. It returns a new copy without changing the original array.
-- All `non-mutating methods` returns a value. Some are `arrays`, `boolean`, `number` or `undefined`. Knowing what a method returns helps debugging.
+- All `non-mutating methods` returns a value. The returned values may be an `array`, `boolean`, `number` or `undefined`. Knowing what a method returns or what does it do to the original array helps in debugging.
+
+## REREFENCE
+
+[Array Methods](https://javascript.info/array-methods)
