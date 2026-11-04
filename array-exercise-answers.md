@@ -69,13 +69,32 @@ console.log( filterRangeInPlace(arr, 1,4) )
 ## Sort in decreasing order
 
 ```JavaScript
+let arr = [5, 2, 1, -10, 8]
 
-
-lt arr = [5, 2, 1, -10, 8]
-
-console.log( arr.sort( (a,b) => b - a) )
+console.log( arr.sort( (a, b) => b - a) )
 ```
 
+## Filter unique array members
+
 ```JavaScript
+function unique(arr) {
+  return Array.from(new Set(arr))
+}
+
+
+function uniqueArr(arr) {
+  let newArr = [];
+  arr.map( item => {
+    if(!newArr.includes(item)){
+      newArr.push(item)
+    }
+  });
+  return newArr;
+}
+let strings = ["Hare", "Krishna", "Hare", "Krishna",
+  "Krishna", "Krishna", "Hare", "Hare", ":-O"
+];
+
+console.log( uniqueArr(strings) ); // Hare, Krishna, :-O
 
 ```
