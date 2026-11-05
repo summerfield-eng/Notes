@@ -60,7 +60,7 @@ filterer(arr, 1, 4)
 let arr = [5, 3, 8, 1];
 
 function filterRangeInPlace(arr, min, max) {
-  return arr.filter((item)=>{return item >= min && item <= max})
+  return arr.filter( (item) => { return item >= min && item <= max })
 }
 
 console.log( filterRangeInPlace(arr, 1,4) )
@@ -78,7 +78,7 @@ console.log( arr.sort( (a, b) => b - a) )
 
 ```JavaScript
 function unique(arr) {
-  return Array.from(new Set(arr))
+  return Array.from( new Set(arr) )
 }
 
 
