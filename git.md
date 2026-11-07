@@ -40,8 +40,9 @@
 
 ## Merging Branch
 
-- If we want to merge into the original branc. We first need to switch to that branch before doing `git merger <branch name>`. The branch name is the one we want to merge into our original branch.
+- If we want to merge into the original branc. We first need to switch to that branch before doing `git merge <branch name>`. The branch name is the one we want to merge into our original branch.
 
 ## Notes
 
 - We can combine the commands using `&&`. This tells the terminal to do the next command after initiating the first one.
+  - example: `git add -A && git commit -m "<message>" && git push origin <branch name>`
