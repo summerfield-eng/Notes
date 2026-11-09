@@ -298,6 +298,35 @@ luci.age = 31;
 gary.age = 29;
 ```
 
+## Object vs Primitive
+
+Consider this code below. What do you think would be the value. The answer is below
+
+```JavaScript
+function increaseCounterObject(objectCounter) {
+  objectCounter.counter += 1;
+}
+
+function increaseCounterPrimitive(primitiveCounter) {
+  primitiveCounter += 1;
+}
+
+const object = { counter: 0 };
+let primitive = 0;
+
+increaseCounterObject(object);
+increaseCounterPrimitive(primitive);
+
+```
+
+### The object
+
+![the object](image-35.png)
+
+### The primitive
+
+![the primitive](image-34.png)
+
 ### Reference
 
 [1]: (https://javascript.info/object)

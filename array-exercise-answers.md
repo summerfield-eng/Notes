@@ -98,3 +98,103 @@ let strings = ["Hare", "Krishna", "Hare", "Krishna",
 console.log( uniqueArr(strings) ); // Hare, Krishna, :-O
 
 ```
+
+## Map to Names
+
+```JavaScript
+let john = { name: "John", age: 25 };
+let pete = { name: "Pete", age: 30 };
+let mary = { name: "Mary", age: 28 };
+
+let users = [ john, pete, mary ];
+
+let names = users.map(item => item.name);
+
+alert( names ); // John, Pete, Mary
+```
+
+## Map to Objects
+
+```JavaScript
+let john = { name: "John", surname: "Smith", id: 1 };
+let pete = { name: "Pete", surname: "Hunt", id: 2 };
+let mary = { name: "Mary", surname: "Key", id: 3 };
+
+let users = [ john, pete, mary ];
+
+let usersMapped = users.map(name => {
+  return {
+    fullName: name.name +" " + name.surname,
+    id: name.id
+  }
+})
+
+
+
+console.log(usersMapped)
+```
+
+## Sort users by age
+
+```JavaScript
+let john = { name: "John", age: 25 };
+let pete = { name: "Pete", age: 30 };
+let mary = { name: "Mary", age: 28 };
+
+let arr = [ pete, john, mary ];
+
+sortByAge(arr);
+
+function sortByAge(arrs) {
+  arrs.sort((a, b) => a.age - b.age )
+} //Since it is inside the object, then just add the property needed to sort
+
+alert(arr[0].name); // John
+alert(arr[1].name); // Mary
+alert(arr[2].name); // Pete
+```
+
+## Get average age
+
+```JavaScript
+let john = { name: "John", age: 25 };
+let pete = { name: "Pete", age: 30 };
+let mary = { name: "Mary", age: 29 };
+
+let arr = [ john, pete, mary ];
+
+function getAverageAge(arrs) {
+  return arr.reduce((acc, person)=>{return acc + person.age},0) / arr.length
+}// since we need to get the average, we iterate over the arr then reduce the age
+
+alert( getAverageAge(arr) ); // (25 + 30 + 29) / 3 = 28
+```
+
+## Create keyed object from array
+
+```JavaScript
+let users = [
+  {id: 'john', name: "John Smith", age: 20},
+  {id: 'ann', name: "Ann Smith", age: 24},
+  {id: 'pete', name: "Pete Peterson", age: 31},
+];
+
+let usersById = groupById(users);
+
+function groupById(arr) {
+  let mappedUsers = {};
+
+  for(let user of users) {
+    mappedUsers[user.id] = {
+      id: user.id,
+      name: user.name,
+      age: user.age
+    } // I used computed properties of objects.
+  }
+
+  return mappedUsers
+
+}
+
+console.log(usersById)
+```
