@@ -240,3 +240,52 @@ A method can be non-mutating while its callback
   // { appplicantNum: 5, visa: true, sss: true, age: 19 }
   //]
   ```
+
+## Document Fragment
+
+So apparently we can actually create a temporary container to append all of the created element before appending it to the parent.
+
+```JavaScript
+function appendNumOfDivs(num) {
+  container.innerHTML = "";
+  let gridCount = num * num;
+  let fragment = document.createDocumentFragment();
+  for (let i = 0; i < gridCount; i++) {
+    fragment.appendChild(createSquareDivs());
+  }
+  container.appendChild(fragment);
+}
+```
+
+This will lighten our process because we dont have to keep on rendering on the main container.
+
+## Do not put any calculation inside a loop
+
+So I had a problem that crashes my project wheneven I tried to render it. I am talking about this project: Etch-a-sketch.
+
+The old code was:
+
+```JavaScript
+function calcContainerWidthHeight(num) {
+  container.querySelectorAll(".square").forEach((item) => {
+    item.style.height = container.clientHeight / num + "px";
+    item.style.width = container.clientWidth / num + "px";
+  });
+}
+```
+
+The code about keeps on recalculating the height and width over and over again. Which causes the page to load and crash.
+
+To solve the problem, we need to compute it once and then passed it to the divs.
+
+```JavaScript
+function calcContainerWidthHeight(num) {
+  const h = container.clientHeight / num;
+  const w = container.clientWidth / num;
+
+  container.querySelectorAll(".square").forEach((item) => {
+    item.style.height = h + "px";
+    item.style.width = w + "px";
+  });
+}
+```
