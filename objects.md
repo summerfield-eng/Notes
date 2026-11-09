@@ -281,13 +281,15 @@ function Person(name) {
 }
 ```
 
-To call Person() as a constructor, we use new:
+To call Person() as a constructor, we use `new` keyword:
 
 ```JavaScript
 const luci = new Person("Harvy");
 luci.introduceSelf();
 // "Hi! I'm Harvy."
 ```
+
+## Class(WIP)
 
 But here come another problem. Lets say we want to add the `age` key to it. We can add the `age` key property to the object itself but having to retype it to every object is workload heavy.
 
