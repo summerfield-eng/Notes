@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./style.css" />
+    <title>Document</title>
+  </head>
+  <body>
+    <main class="parent">
+      <div class="child group1">
+        <div class="grand-child group1">This is grand-child 1</div>
+      </div>
+      <div class="child group2">
+        <div class="grand-child group2">
+          This is grand-child 2; I was targeted by .group1 + div
+        </div>
+      </div>
+      <div class="child group3">
+        <div class="grand-child group3">
+          This is grand-child 3;I was targeted by .group1 + div + div
+        </div>
+      </div>
+      <form>
+        <label for="email">Email</label>
+        <input type="email" name="email" id="emailInput" />
+      </form>
+      <div>Let's <span class="emojify">emojify</span>this span!</div>
+      <ul>
+        <p>This is a list</p>
+        <li>li 1</li>
+        <li>li 2</li>
+        <li>li 3</li>
+        <li>li 4</li>
+      </ul>
+    </main>
+  </body>
+</html>

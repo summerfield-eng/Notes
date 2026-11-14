@@ -1,0 +1,58 @@
+main {
+  padding: 10px;
+  border: 3px solid black;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+div .child {
+  border: 1px solid red;
+}
+
+div .grand-child {
+  border: 1px solid blue;
+}
+
+main > div > div {
+  background-color: aqua;
+}
+
+.group1 + div {
+  font-size: 1.5em;
+}
+
+.group1 + div + div {
+  font-size: 2em;
+}
+
+.group1 ~ div {
+  color: brown;
+}
+
+#emailInput {
+  box-shadow: 1px 1px 10px 10px gainsboro;
+}
+
+#emailInput:invalid {
+  border: 1px solid palevioletred;
+}
+.emojify::before {
+  content: "😎 😄 🤓";
+}
+
+.emojify::after {
+  content: "🤓 😄 😎";
+}
+
+li:nth-child(even)::marker {
+  color: red; /* Targets the bullets that are odd*/
+}
+
+.group1::first-letter {
+  color: green; /*Turns the first letter of the .group1 to green*/
+}
+
+.group1::selection {
+  background-color: black;
+}
