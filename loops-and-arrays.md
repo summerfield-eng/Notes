@@ -237,7 +237,7 @@ There are two ways to create an array:
 - A queue is one of the most common uses of an array. In computer science, this means an ordered collection of elements which supports two operations:
   - `push` - appends an element at the end of the array/queue.
   - `shift` - gets an element from the beginning of an array/queue, so that the 2nd element becomes the 1st element.  
-    ![push and shift](image-27.png)
+    ![push and shift](./img/image-27.png)
 - For `queues`, the first item push is taken out first. FIFO(First-In-First-Out)
 
 #### STACK
@@ -246,7 +246,7 @@ There are two ways to create an array:
 - It supports two operations:
   - `push` - adds an element to the end.
   - `pop` - takes and element from the end.  
-    ![push and pop](image-28.png)
+    ![push and pop](./img/image-28.png)
 - For `stack`, the latest item push is taken out first. LIFO(Last-In-First-Out)
 
 Arrays in JavaScript can work both as a queue and as a stack. They allow you to add/remove elements, both to/from the beginning or the end.
@@ -317,14 +317,14 @@ In computer science, the data structure that allows this, is called `deque`.
 #### Performance
 
 - Methods `push/pop` run fast, while `shift/unshift` are slow.
-  ![speed performance](image-30.png)
+  ![speed performance](./img/image-30.png)
 - During execution of these methods, needs to reassign their indexes to accomodate the changes.
 - It is not enough to take and remove the element wit hthe index `0`. Other elements need to be renumbered as well.
 - The shift operation must do 3 things:
   1. Remove the element with the index `0`.
   2. Move all elements to the left, renumber them from the index `1` to `0`, from `2` to `1` and so on.
   3. Update the `length` property.  
-     ![shift/unshift explantion](image-31.png)
+     ![shift/unshift explantion](./img/image-31.png)
 
 - **The more elements in the array, the more time to move them, more in-memory operations.**
 

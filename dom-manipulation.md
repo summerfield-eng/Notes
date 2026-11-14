@@ -75,7 +75,7 @@
     1. The `mousedown` fires when you press the mouse button on the element.
     2. The `mouseup` fires when you release the mouse button on the element.
     3. The `click` fires when one `mousedown` and one `mouseup` detected on the element.
-       ![click](image-32.png)
+       ![click](./img/image-32.png)
 - `mousemove`
   - The `mousemove` event fires repeatedly whenever you move the mouse cursor around an element. This `mousemove` event fires many times per second as the mouse is moved around, even if it is just by one pixel. This may lead to a performance issue if the event handler function is complex.
 
@@ -140,7 +140,7 @@
 - Functions:
   - Trigger an event without a user triggering it manually. This way you can reuse existing event listeners. Like you have a button that shows an alert when clicked.
     Using the `.dispatchEvent()` that alert will show without event clicking the button.
-  - Passed somevalues using details![alt text](image-33.png)
+  - Passed somevalues using details![alt text](./img/image-33.png)
   - Communicating betweend different parts of your application.
     ![dispatch](../../Pictures/dispatch-2.png)
 

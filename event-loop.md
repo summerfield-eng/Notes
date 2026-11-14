@@ -18,7 +18,7 @@ The other components/parts are below.
 - Task Queue
 - Microtask Queue
 - Event loop
-  ![The JavaScript runtime environment](image-1.png)
+  ![The JavaScript runtime environment](./img/image-1.png)
 
 These components work together to make JavaScript non-blocking.
 
@@ -75,7 +75,7 @@ These components work together to make JavaScript non-blocking.
 ### Window Object
 
 - To reiterate, these API are provide by the runtime environment. And we can access these api through the **window** object. That is why occasionally you will see `window.setInterval()` or `window.document.querySelector("li")`. The _window_ can be omitted when calling these APIs.
-  ![Web API Environment](image.png)
+  ![Web API Environment](./img/image.png)
 
 ## Event Loop, how does it work?
 
@@ -123,16 +123,16 @@ These components work together to make JavaScript non-blocking.
 
 - Lets say the call stack is executing some code while other task exist in the callback queue. How will event loop handle it?
   1. Since we know the event loop continously check if the call stack is empty and checks if there are tasks inside the callback queue, the event loop will first wait until the all the task inside call stack are completed and is empty.
-     ![scenario 2](image-2.png)
+     ![scenario 2](./img/image-2.png)
 
   2. Now that the call stack is empty, the event loop will now be active and push the task inside the callback queue, one task at a time.
-     ![scenario 2.1](image-3.png)
-     ![secnario 2.2](image-4.png)
+     ![scenario 2.1](./img/image-3.png)
+     ![secnario 2.2](./img/image-4.png)
   3. The event loop will then start to wail until the call stack is empty and if it does, it will pust the task inside the callback queue into the call stack for it to be executed.
-     ![scenario 2.3](image-5.png)
-     ![scenario 2.4](image-6.png)
+     ![scenario 2.3](./img/image-5.png)
+     ![scenario 2.4](./img/image-6.png)
   4. After finishing the execution, both the callstack and the callback queue are empty.
-     ![scenario 2.5](image-7.png)
+     ![scenario 2.5](./img/image-7.png)
 
 - Now we finally understand how event loop works. It is simple but very impactful as it acts as a bridge that connects all the components inside the runtime environment. Making the JavaScript non-blocking.
 
@@ -154,21 +154,21 @@ These components work together to make JavaScript non-blocking.
 
 - Now here are what will happen.
   1. Before the code runs, JavaScript will create a _global execution_ context inside the _call stack_.
-     ![scenario 3](image-8.png)
+     ![scenario 3](./img/image-8.png)
   2. Line 1 runs, JavaScript 'sees' that this line has a web api called `geolocation`. Javascript will execute the `.getCurrentPosition()` synchronously and pass the callback functions (position and error) in the web api environment. The `.getCurrentPosition()` will then be pop-out of the call stack
-     ![scenario 3.1](image-9.png)
+     ![scenario 3.1](./img/image-9.png)
   3. The web api environment will show a prompt asking for permission to get the user's information.
   4. While it is waiting for the user's approval, the code execution will continue. It will proceed to line 7. At this point the code execution is complete. The _global execution_ content will be popped off the call stack and will become empty. Note: That the global execution context will only be created the first time the code runs.
-     ![scenario 3.2](image-10.png)
+     ![scenario 3.2](./img/image-10.png)
   5. The user can choose if he wants to allow or denied sharing his location. Based on this two posibilities, we can either received a position or an error.
-     ![scenario 3.3](image-11.png)
+     ![scenario 3.3](./img/image-11.png)
   6. Let's assume the user gave their permission. The success callback function containing the `console.log()`_position_ will then be passed to the _callback queue_
-     ![scenario 3.4](image-12.png)
+     ![scenario 3.4](./img/image-12.png)
   7. The event loop will do its job checking if the _call stack_ is empty and if there are tasks inside the _callback queue_.
   8. The callback function _position_ will now be pass to the _callstack_ by the _event loop_. Where an execution context will be creatd for it.
-     ![scenario 3.5](image-13.png)
+     ![scenario 3.5](./img/image-13.png)
   9. The `console.log(position)` will be executed in the call stack and will be pop-out after execution. Remember that `console` is a synchronous api. So it will happen inside the _call stack_, and the user position will appear in the console.
-     ![scenario 3.6](image-14.png)
+     ![scenario 3.6](./img/image-14.png)
 
 ### Another example using the DOM API and Event API
 
@@ -184,7 +184,7 @@ These components work together to make JavaScript non-blocking.
 9| console.log("End!")
 ```
 
-![scenario 4](image-15.png)
+![scenario 4](./img/image-15.png)
 
 Steps:
 
@@ -192,7 +192,7 @@ Steps:
 2. Line 1, `console.log("Start!")`, this is a synchronous api, so it will automatically be logged in the console.
 3. Moving on the next line, a variable `btn` is initialized with the html element that has an ID of `myBtn`. This will be stored in the memory(Heap).
 4. Next line, we added an eventlistener on the `btn` variable. The JavaScript engine sees that we added an eventListener method, so it executes that event listener and passes a callback function the web api environment. That function is **not** executed yet. It is simply registered.
-   Wording fix: ![fix 1](image-16.png)
+   Wording fix: ![fix 1](./img/image-16.png)
 5. When a user clicks on that button, it will trigger that stored callback function on the web api which in turn will push that callback function on the macrotask queue and waits for the event loop to do its jobs, once cleared, it will push that callback function on the callstack in which a function execution context is created and will print "Button clicked!" on the console.
 6. For now since the button is not clicked, it will proceed on the next line of the code and it will print the "End!" string in console.
 7. The global execution context will be pop-out of the call stack.
@@ -216,24 +216,24 @@ Steps:
 12|  console.log("End!");
 ```
 
-![scenario 5](image-17.png)
+![scenario 5](./img/image-17.png)
 
 - Code Executes
   1. JavaScript Engine creates a _global execution_ context inside the callstack.
   2. Line 1, the code `console.log("Start!");` executes inside the call stack synchronously. Printing `Start` on the console.
   3. Line 3, JavaScript engines that we have a window object `.setTimeout(fn, 4000)`. Set timeout executes synchronously on the call stack. It passes the callback function `fn` on the web api environment. The web environment handles the countdown.
-  4. Line 7, the JavaScript engine sees that we have a fetch() call, which is a window object. The fetch() api hands the URL request to the web api environment to fetch the data and creates a _Promise_ that stored in the Heap. The `fetch()` gets pop-out of the stack. The `.then()` attaches the callback function `console.log("Data Received")` to the promise. Then the `.then()` gets pop-out after attaching the callback function.![scenario 5.3](image-21.png)![scenario 5.4](image-22.png) ![scenario 5.6](image-24.png)
+  4. Line 7, the JavaScript engine sees that we have a fetch() call, which is a window object. The fetch() api hands the URL request to the web api environment to fetch the data and creates a _Promise_ that stored in the Heap. The `fetch()` gets pop-out of the stack. The `.then()` attaches the callback function `console.log("Data Received")` to the promise. Then the `.then()` gets pop-out after attaching the callback function.![scenario 5.3](./img/image-21.png)![scenario 5.4](./img/image-22.png) ![scenario 5.6](./img/image-24.png)
   5. JavaScript procees on Line 12, where it executes the code synchronously and prints `End!`.
   6. The code execution is completed and the _global execution_ context is removed and the call stack is now empty.
   7. In the web api environment, we have 2 functions that currently exists. the callback function for the set timeout and the callback function for the fetch.
-     ![scenario 5.1](image-18.png)
-  8. Now assuming that the fetch loads faster, once the data arrives, the browser resolves the _promise_. The promise then moves the callback fn to the web api environment, which then moves to the micro task queue, which then gets push by the event loop in the callstack. It then gets executed and prints `Data Received` on the console. Take note that the _microtask queue_ takes higher priority. Meaning that the _event loop_ would first check the _microtask queue_ if it is empty before checking the _macrotask queue_.!![scenario 5.2](image-20.png).
+     ![scenario 5.1](./img/image-18.png)
+  8. Now assuming that the fetch loads faster, once the data arrives, the browser resolves the _promise_. The promise then moves the callback fn to the web api environment, which then moves to the micro task queue, which then gets push by the event loop in the callstack. It then gets executed and prints `Data Received` on the console. Take note that the _microtask queue_ takes higher priority. Meaning that the _event loop_ would first check the _microtask queue_ if it is empty before checking the _macrotask queue_.!![scenario 5.2](./img/image-20.png).
   9. Now after waiting for atleast 4 seconds, the setTimeout callback funtion is now ready and is push on the macrotask queue. The _event loop_ will then check if the call stack is empty and would push the callback fn to it for it to be executed. It would print `Inside setTimeout` on the console.
-  - Now lets assume both finished at the same time. ![scenario 5.5](image-23.png). The microtask gets push on the call stack first and then gets executed and pop-out. After it was pop-out, then will only then be the setTimeout be push in the callstack to be executed.
+  - Now lets assume both finished at the same time. ![scenario 5.5](./img/image-23.png). The microtask gets push on the call stack first and then gets executed and pop-out. After it was pop-out, then will only then be the setTimeout be push in the callstack to be executed.
 
 #### How do we identify which goes into Micro/Macro?
 
-![scenario](image-25.png)
+![scenario](./img/image-25.png)
 
 To easily identify which function goes into which, you only need to remember that **all** asynchronous callback function goes into the Macro task queue except the following:
 
@@ -256,6 +256,6 @@ To easily identify which function goes into which, you only need to remember tha
   - animation stops
   - the tab appears hung
 
-![starvation image](image-26.png)
+![starvation image](./img/image-26.png)
 
 [Source](https://www.youtube.com/watch?v=jzOy07fw2vY)

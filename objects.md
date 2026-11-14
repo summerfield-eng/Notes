@@ -321,11 +321,11 @@ increaseCounterPrimitive(primitive);
 
 ### The object
 
-![the object](image-35.png)
+![the object](./img/image-35.png)
 
 ### The primitive
 
-![the primitive](image-34.png)
+![the primitive](./img/image-34.png)
 
 ### Reference
 
