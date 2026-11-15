@@ -289,3 +289,99 @@ function calcContainerWidthHeight(num) {
   });
 }
 ```
+
+## `document.documentElement` and `.className`
+
+Apparently there is a method if we want to get the root element of an html. which is the `<html>` element itself.
+
+We can use the `.documentElement` method.
+
+```js
+const root = document.documentElement;
+console.log(root.className); // this will show the class attribue
+```
+
+Additionally, we can use `.className` method if we want to get the class name declared on any element.
+
+```html
+<div class="parent">
+  Parent
+  <div class="child-one child">One</div>
+  <div class="child-two child">two</div>
+  <div class="child-three child">three</div>
+  <div class="child-four child">Font size</div>
+</div>
+```
+
+```javascript
+const root = document.documentElement;
+const firstDiv = root.querySelector(".child-one");
+console.log(firstDiv.className); // child-one child
+```
+
+We can use this knowledge if we want to toggle between themes.
+
+```html
+<div class="container">
+  <p>
+    You're now viewing this example with the
+    <span class="theme-name">dark</span> theme!
+  </p>
+  <button class="theme-toggle">Toggle Theme</button>
+</div>
+```
+
+```css
+:root.dark {
+  --border-btn: 1px solid rgb(220, 220, 220);
+  --color-base-bg: rgb(18, 18, 18);
+  --color-base-text: rgb(240, 240, 240);
+  --color-btn-bg: rgb(36, 36, 36);
+}
+​ :root.light {
+  --border-btn: 1px solid rgb(36, 36, 36);
+  --color-base-bg: rgb(240, 240, 240);
+  --color-base-text: rgb(18, 18, 18);
+  --color-btn-bg: rgb(220, 220, 220);
+}
+​ body,
+.theme-toggle {
+  color: var(--color-base-text);
+}
+​ body {
+  background-color: var(--color-base-bg);
+  padding: 10px;
+}
+​ .container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+​ p {
+  font-size: 1.5rem;
+}
+​ .theme-toggle {
+  background-color: var(--color-btn-bg);
+  border: var(--border-btn);
+  font-size: 1.125rem;
+  padding: 10px 20px;
+}
+​ .theme-toggle:hover {
+  cursor: pointer;
+}
+​ .theme-toggle:focus {
+  outline: var(--border-btn);
+}
+```
+
+```js
+function setTheme() {
+  const root = document.documentElement;
+  const newTheme = root.className === "dark" ? "light" : "dark";
+  root.className = newTheme;
+
+  document.querySelector(".theme-name").textContent = newTheme;
+}
+
+document.querySelector(".theme-toggle").addEventListener("click", setTheme);
+```
